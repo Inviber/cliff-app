@@ -1,4 +1,4 @@
-from repformulas import epleyCalculation, brzyckiCalculation, landerCalculation
+from repformulas import oneRepCalculation
 
 def generateWelcomeMessage():
     print(r"""     
@@ -20,10 +20,18 @@ def menu():
 def main():
     generateWelcomeMessage()
     choice = menu()
-    print(choice)
-    weight = input("\nWhat is your weight? (lbs only) : ")
-    reps = input("\nWhat is the number of reps for the exercise? \n(Lower the reps the more accurate it would be) : ")
-    print(f"Your weight is {weight} lbs")
-    print(f"The number of reps reported is {reps}")
+    #print(f"Your weight is {weight} lbs")
+    #print(f"The number of reps reported is {reps}")
+    
+    match choice:
+        case "1":
+            print("Generating One Rep Max...")
+            weight = float(input("\nWhat is your weight? (lbs only) : "))
+            reps = int(input("\nWhat is the number of reps for the exercise? \n(Lower the reps the more accurate it would be) : "))
+            print(int(oneRepCalculation(weight, reps)))
+        case "2":
+            return
+        case "3":
+            return
 
 main()
