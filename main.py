@@ -1,5 +1,5 @@
 from repformulas import oneRepCalculation
-from macros import generateMacros
+from macros import calculateKatch_McArdleFormula, calculateMifflin_StJeorEquation, convertHeight, convertWeight, activityMultiplier, calculateGoalCalories
 
 def generateWelcomeMessage():
     print(r"""     
@@ -15,15 +15,11 @@ def menu():
     print("\t1. Generating One Rep Max (Best for Reps 10 and under)")
     print("\t2. Macro Calculations per individual")
     print("\t3. Generating a basic workout program")
-    choice = input("\nWhat would you like to do? (1-3) : ")
+    print("\t4. Exit the application")
+    choice = input("\nWhat would you like to do? (1-4) : ")
     return choice
 
-def main():
-    generateWelcomeMessage()
-    choice = menu()
-    #print(f"Your weight is {weight} lbs")
-    #print(f"The number of reps reported is {reps}")
-    
+def menuChoices(choice):
     match choice:
         case "1":
             print("Generating One Rep Max...")
@@ -38,8 +34,25 @@ def main():
             weight = float(input("What is your weight? (lbs only) : "))
             goal = input("What is your Goal?\n\t1. Maintain\n\t2. Lose\n\t3. Gain\nChoice? : ")
             activity = input("What is your activity level?\n\t1. Little or no exercise\n\t2. Light 3-5 days a week\n\t3. Moderate 3-5 days a week\n\t4. Hard 6-7 days a week\n\t5. Hard 6-7 days a week and physical job\nChoice? : ")
-            return
+            knowBF = input("Do you know your body fat percentage? (y/n):")
+            height = convertHeight(heightFeet, heightInches)
+            weight = convertWeight(weight)
+            if knowBF == 'y':
+                bf = input("What is your body fat percentage? : ")
+                calories = int(calculateKatch_McArdleFormula(bf, weight) * activityMultiplier(activity))
+            else:
+                calories = int(calculateMifflin_StJeorEquation(gender, weight, height, age) * activityMultiplier(activity))
+            print("\nCalories based on calculation: ", calories)
+            print("\nCalories to meet goal (maintain / lose 1lb / gain 1lb) : ", calculateGoalCalories(calories, goal))
         case "3":
-            return
+            print("Start survey to generate workout program...")
+
+def main():
+    generateWelcomeMessage()
+    choice = ""
+    
+    while choice != "4":
+        choice = menu()
+        menuChoices(choice)
 
 main()
